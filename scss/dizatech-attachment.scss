@@ -1,0 +1,201 @@
+// Bootstrap
+@import  '~bootstrap-v4-rtl/scss/bootstrap-rtl';
+
+// Plugins
+@import "~animate.css/animate.compat.css";
+
+@import '~sweetalert2/src/sweetalert2.scss';
+
+@import "~alertifyjs/build/css/alertify.rtl.min.css";
+@import "~alertifyjs/build/css/themes/bootstrap.rtl.min.css";
+
+@import '~lity/dist/lity.min.css';
+
+// remove black border when button focus
+button {
+    &:focus {
+        outline: 0;
+    }
+}
+
+// Start style sweetAlert2
+.swal2-title {
+    font-size: 1.5em !important;
+}
+// End style sweetAlert2
+
+// Start alertify style background, color, border-radius
+.alertify-notifier {
+    .ajs-message.ajs-visible {
+        border-radius: 0.25rem;
+    }
+
+    // notify style background
+    .ajs-message.ajs-custom {
+        background-color: $info;
+        border-color: $info;
+        border-radius: 0.25rem;
+        color: $white;
+    }
+
+    .ajs-message.ajs-visible {
+        // warning style background
+        &.ajs-warning {
+            background-color: $warning;
+            border-color: $warning;
+            border-radius: 0.25rem;
+            color: $white;
+        }
+
+        // error style background
+        &.ajs-error {
+            background-color: $danger;
+            border-color: $danger;
+            border-radius: 0.25rem;
+        }
+
+        // success style background
+        &.ajs-success {
+            background-color: $success;
+            border-color: $success;
+            border-radius: 0.25rem;
+        }
+    }
+}
+// End alertify style background, color, border-radius
+
+// Remove padding right for id= app when shown sweetalert
+.swal2-shown {
+    padding-right: 0px !important;
+}
+
+a {
+    &:hover {
+        text-decoration: none;
+    }
+}
+
+// Start Gallery
+$theme_gray: #B3B3B7;
+$theme_red: #DF2935;
+.gallery_files, .attachments{
+    .gallery_file_upload,
+    .attachment_file_upload{
+        border: thin solid $theme_gray;
+        padding: 1em;
+        border-radius: 3px;
+        direction: ltr;
+        text-align: left;
+        position: relative;
+
+        .delete_file{
+            display: block;
+            position: absolute;
+            top: 1px;
+            right: 1px;
+            width: 24px;
+            height: 24px;
+            text-align: center;
+            line-height: 26px;
+            border: thin solid $theme_gray;
+            border-radius: 50%;
+            background-color: $white;
+            color: $theme_red;
+            cursor: pointer;
+            transition: $transition_base;
+
+            &:hover{
+                background-color: mix( $white, $red );
+            }
+        }
+
+        &:nth-child(odd){
+            background-color: lighten( $theme_gray, 15 );
+        }
+
+        .uploaded_file_thumbnail{
+            img{
+                border: thin solid $theme_gray;
+                width: 100px;
+                height: 100px;
+                padding: 0.1em;
+                border-radius: 3px;
+                margin-right: 1em;
+            }
+        }
+    }
+}
+// End Gallery
+
+// Start Progress
+.progress-rad {
+    width: 150px;
+    height: 150px;
+    background: none;
+    position: relative;
+}
+
+.progress-rad::after {
+    content: "";
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 12px solid #eee;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.progress-rad>span {
+    width: 50%;
+    height: 100%;
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    z-index: 1;
+}
+
+.progress-rad .progress-left {
+    left: 0;
+}
+
+.progress-rad .progress-bar {
+    width: 100%;
+    height: 100%;
+    background: none;
+    border-width: 12px;
+    border-style: solid;
+    position: absolute;
+    top: 0;
+}
+
+.progress-rad .progress-left .progress-bar {
+    left: 100%;
+    border-top-right-radius: 80px;
+    border-bottom-right-radius: 80px;
+    border-left: 0;
+    -webkit-transform-origin: center left;
+    transform-origin: center left;
+}
+
+.progress-rad .progress-right {
+    right: 0;
+}
+
+.progress-rad .progress-right .progress-bar {
+    left: -100%;
+    border-top-left-radius: 80px;
+    border-bottom-left-radius: 80px;
+    border-right: 0;
+    -webkit-transform-origin: center right;
+    transform-origin: center right;
+}
+
+.progress-rad .progress-value {
+    position: absolute;
+    top: 5px;
+    left: 0;
+    font-size: 2em;
+    font-weight: 900;
+}
+// End Process
