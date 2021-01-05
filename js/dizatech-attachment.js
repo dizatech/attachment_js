@@ -76,11 +76,12 @@ $('.gallery_image_upload').change(function () {
             '<span class="file_name"></span>' +
             '<input class="uploaded_file_path" type="hidden" name="' + input_name + '">' +
             '</div>' +
-            caption_markup +
             '<div class="progress">' +
             '<div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 0%">0%</div>' +
             '</div>' +
             '</div>';
+
+        target.find('.gallery_files').append(markup).sortable();
 
         // prepare data
         let formData = new FormData();
@@ -89,15 +90,6 @@ $('.gallery_image_upload').change(function () {
         // let fail_message = '<span class="ltr">آپلود فایل ' + $(this).prop('files')[i].name + ' با خطا مواجه شد.</span>';
 
         // send request
-        Swal.fire({
-            title: 'در حال بارگذرای فایل',
-            icon: 'info',
-            allowEscapeKey: false,
-            allowOutsideClick: false,
-            onOpen: () => {
-                Swal.showLoading();
-            }
-        });
         $.ajax({
             url: upload_url,
             async: true,
@@ -108,11 +100,11 @@ $('.gallery_image_upload').change(function () {
             type: 'post',
             success: function (response) {
                 if (response.status == 200) {
-                    target.find('.gallery_files').append(markup).sortable();
                     $('#' + file_id).find('.file_name').text(response.file_name);
                     $('#' + file_id).find('.uploaded_file_path').val(response.file_key);
                     $('#' + file_id).find('.uploaded_file_thumbnail').attr('href', response.file_url).show();
                     $('#' + file_id).find('.uploaded_file_thumbnail img').attr('src', response.thumbnail);
+                    $('#' + file_id ).append(caption_markup);
                     $('#' + file_id).find('.progress').remove();
                     Swal.fire({
                         icon: 'success',
@@ -232,98 +224,117 @@ $('.gallery').on('click', '.delete_file', function () {
     })
         .then((result) => {
             if (result.isConfirmed) {
-                Swal.fire({
-                    title: 'در حال اجرای درخواست',
-                    icon: 'info',
-                    allowEscapeKey: false,
-                    allowOutsideClick: false,
-                    onOpen: () => {
-                        Swal.showLoading();
-                    }
-                });
-                $.ajax({
-                    type: 'post',
-                    url: remove_url,
-                    dataType: 'json',
-                    data: {
-                        object_id: id,
-                        object_type: type
-                    },
-                    success: function (response) {
-                        target.remove();
-                        Swal.fire({
-                            icon: 'success',
-                            text: 'عملیات حذف با موفقیت انجام شد.',
-                            confirmButtonText: 'تایید',
-                            customClass: {
-                                confirmButton: 'btn btn-success',
-                            },
-                            buttonsStyling: false,
-                            showClass: {
-                                popup: 'animated fadeInDown'
-                            },
-                            hideClass: {
-                                popup: 'animated fadeOutUp'
-                            }
-                        })
-                    },
-                    error: function (response) {
-                        if (response.status == 422) {
-                            let response_text = $.parseJSON(response.responseText);
-                            Swal.fire({
-                                icon: 'error',
-                                html: response_text.errors.object_id[0],
-                                confirmButtonText: 'تایید',
-                                customClass: {
-                                    confirmButton: 'btn btn-success',
-                                },
-                                buttonsStyling: false,
-                                showClass: {
-                                    popup: 'animated fadeInDown'
-                                },
-                                hideClass: {
-                                    popup: 'animated fadeOutUp'
-                                }
-                            })
-                        } else if (response.status >= 500) {
-                            let text = 'در سمت سرور خطایی بوجود آمده است.';
-                            Swal.fire({
-                                title: 'خطا در آپلود فایل',
-                                html: text,
-                                icon: 'error',
-                                confirmButtonText: 'تایید',
-                                buttonsStyling: false,
-                                customClass: {
-                                    confirmButton: 'btn btn-success',
-                                },
-                                showClass: {
-                                    popup: 'animated fadeInDown'
-                                },
-                                hideClass: {
-                                    popup: 'animated fadeOutUp'
-                                }
-                            })
-                        } else if (response.status == 403) {
-                            let text = 'شما دسترسی انجام عملیات حذف را ندارید.';
-                            Swal.fire({
-                                title: 'خطا در آپلود فایل',
-                                html: text,
-                                icon: 'error',
-                                confirmButtonText: 'تایید',
-                                buttonsStyling: false,
-                                customClass: {
-                                    confirmButton: 'btn btn-success',
-                                },
-                                showClass: {
-                                    popup: 'animated fadeInDown'
-                                },
-                                hideClass: {
-                                    popup: 'animated fadeOutUp'
-                                }
-                            })
+                if(id == '') {
+                    target.remove();
+                    Swal.fire({
+                        icon: 'success',
+                        text: 'عملیات حذف با موفقیت انجام شد.',
+                        confirmButtonText:'تایید',
+                        customClass: {
+                            confirmButton: 'btn btn-success',
+                        },
+                        buttonsStyling: false,
+                        showClass: {
+                            popup: 'animated fadeInDown'
+                        },
+                        hideClass: {
+                            popup: 'animated fadeOutUp'
                         }
-                    }
-                });
+                    })
+                } else {
+                    Swal.fire({
+                        title: 'در حال اجرای درخواست',
+                        icon: 'info',
+                        allowEscapeKey: false,
+                        allowOutsideClick: false,
+                        onOpen: () => {
+                            Swal.showLoading();
+                        }
+                    });
+                    $.ajax({
+                        type: 'post',
+                        url: remove_url,
+                        dataType: 'json',
+                        data: {
+                            object_id: id,
+                            object_type: type
+                        },
+                        success: function (response) {
+                            target.remove();
+                            Swal.fire({
+                                icon: 'success',
+                                text: 'عملیات حذف با موفقیت انجام شد.',
+                                confirmButtonText:'تایید',
+                                customClass: {
+                                    confirmButton: 'btn btn-success',
+                                },
+                                buttonsStyling: false,
+                                showClass: {
+                                    popup: 'animated fadeInDown'
+                                },
+                                hideClass: {
+                                    popup: 'animated fadeOutUp'
+                                }
+                            })
+                        },
+                        error: function(response){
+                            if( response.status == 422 ) {
+                                let response_text = $.parseJSON( response.responseText );
+                                Swal.fire({
+                                    icon: 'error',
+                                    html: response_text.errors.object_id[0],
+                                    confirmButtonText:'تایید',
+                                    customClass: {
+                                        confirmButton: 'btn btn-success',
+                                    },
+                                    buttonsStyling: false,
+                                    showClass: {
+                                        popup: 'animated fadeInDown'
+                                    },
+                                    hideClass: {
+                                        popup: 'animated fadeOutUp'
+                                    }
+                                })
+                            } else if(response.status >= 500) {
+                                let text = 'در سمت سرور خطایی بوجود آمده است.';
+                                Swal.fire({
+                                    title: 'خطا در آپلود فایل',
+                                    html: text,
+                                    icon: 'error',
+                                    confirmButtonText: 'تایید',
+                                    buttonsStyling: false,
+                                    customClass: {
+                                        confirmButton: 'btn btn-success',
+                                    },
+                                    showClass: {
+                                        popup: 'animated fadeInDown'
+                                    },
+                                    hideClass: {
+                                        popup: 'animated fadeOutUp'
+                                    }
+                                })
+                            } else if(response.status == 403) {
+                                let text = 'شما دسترسی انجام عملیات حذف را ندارید.';
+                                Swal.fire({
+                                    title: 'خطا در آپلود فایل',
+                                    html: text,
+                                    icon: 'error',
+                                    confirmButtonText: 'تایید',
+                                    buttonsStyling: false,
+                                    customClass: {
+                                        confirmButton: 'btn btn-success',
+                                    },
+                                    showClass: {
+                                        popup: 'animated fadeInDown'
+                                    },
+                                    hideClass: {
+                                        popup: 'animated fadeOutUp'
+                                    }
+                                })
+                            }
+                        }
+                    });
+                }
             }
         });
 });
@@ -372,21 +383,14 @@ $('.attachment_upload').change(function () {
             '</div>' +
             '</div>';
 
+        target.find('.uploaded_files').append(markup);
+
         // prepare data
         let formData = new FormData();
         formData.append('file', $(this).prop('files')[i]);
         formData.append('file_type', 'attachment');
         // let fail_message = '<span class="ltr">آپلود فایل ' + $(this).prop('files')[i].name + ' با خطا مواجه شد.</span>';
         // send request
-        Swal.fire({
-            title: 'در حال بارگذرای فایل',
-            icon: 'info',
-            allowEscapeKey: false,
-            allowOutsideClick: false,
-            onOpen: () => {
-                Swal.showLoading();
-            }
-        });
         $.ajax({
             url: upload_url,
             async: true,
@@ -397,7 +401,6 @@ $('.attachment_upload').change(function () {
             type: 'post',
             success: function (response) {
                 if (response.status == 200) {
-                    target.find('.uploaded_files').append(markup);
                     $('#' + file_id).find('.file_name').text(response.file_name);
                     $('#' + file_id).find('a').attr('href', response.file_url);
                     $('#' + file_id).find('.uploaded_file_path').val(response.file_key);
@@ -520,100 +523,119 @@ $('.attachments').on('click', '.delete_file', function () {
         }
     })
         .then((result) => {
-            if (result.isConfirmed) {
-                Swal.fire({
-                    title: 'در حال اجرای درخواست',
-                    icon: 'info',
-                    allowEscapeKey: false,
-                    allowOutsideClick: false,
-                    onOpen: () => {
-                        Swal.showLoading();
-                    }
-                });
-
-                $.ajax({
-                    type: 'post',
-                    url: remove_url,
-                    dataType: 'json',
-                    data: {
-                        object_id: id,
-                        object_type: type
-                    },
-                    success: function (response) {
-                        target.remove();
-                        Swal.fire({
-                            icon: 'success',
-                            text: 'عملیات حذف با موفقیت انجام شد.',
-                            confirmButtonText: 'تایید',
-                            customClass: {
-                                confirmButton: 'btn btn-success',
-                            },
-                            buttonsStyling: false,
-                            showClass: {
-                                popup: 'animated fadeInDown'
-                            },
-                            hideClass: {
-                                popup: 'animated fadeOutUp'
-                            }
-                        })
-                    },
-                    error: function (response) {
-                        if (response.status == 422) {
-                            let response_text = $.parseJSON(response.responseText);
-                            Swal.fire({
-                                icon: 'error',
-                                html: response_text.errors.object_id[0],
-                                confirmButtonText: 'تایید',
-                                customClass: {
-                                    confirmButton: 'btn btn-success',
-                                },
-                                buttonsStyling: false,
-                                showClass: {
-                                    popup: 'animated fadeInDown'
-                                },
-                                hideClass: {
-                                    popup: 'animated fadeOutUp'
-                                }
-                            })
-                        } else if (response.status >= 500) {
-                            let text = 'در سمت سرور خطایی بوجود آمده است.';
-                            Swal.fire({
-                                title: 'خطا در آپلود فایل',
-                                html: text,
-                                icon: 'error',
-                                confirmButtonText: 'تایید',
-                                buttonsStyling: false,
-                                customClass: {
-                                    confirmButton: 'btn btn-success',
-                                },
-                                showClass: {
-                                    popup: 'animated fadeInDown'
-                                },
-                                hideClass: {
-                                    popup: 'animated fadeOutUp'
-                                }
-                            })
-                        } else if (response.status == 403) {
-                            let text = 'شما دسترسی انجام عملیات حذف را ندارید.';
-                            Swal.fire({
-                                title: 'خطا در آپلود فایل',
-                                html: text,
-                                icon: 'error',
-                                confirmButtonText: 'تایید',
-                                buttonsStyling: false,
-                                customClass: {
-                                    confirmButton: 'btn btn-success',
-                                },
-                                showClass: {
-                                    popup: 'animated fadeInDown'
-                                },
-                                hideClass: {
-                                    popup: 'animated fadeOutUp'
-                                }
-                            })
+            if(result.isConfirmed) {
+                if(id == '') {
+                    target.remove();
+                    Swal.fire({
+                        icon: 'success',
+                        text: 'عملیات حذف با موفقیت انجام شد.',
+                        confirmButtonText:'تایید',
+                        customClass: {
+                            confirmButton: 'btn btn-success',
+                        },
+                        buttonsStyling: false,
+                        showClass: {
+                            popup: 'animated fadeInDown'
+                        },
+                        hideClass: {
+                            popup: 'animated fadeOutUp'
                         }
-                    }
-                });
+                    })
+                } else {
+                    Swal.fire({
+                        title: 'در حال اجرای درخواست',
+                        icon: 'info',
+                        allowEscapeKey: false,
+                        allowOutsideClick: false,
+                        onOpen: () => {
+                            Swal.showLoading();
+                        }
+                    });
+
+                    $.ajax({
+                        type: 'post',
+                        url: remove_url,
+                        dataType: 'json',
+                        data: {
+                            object_id: id,
+                            object_type: type
+                        },
+                        success: function(response) {
+                            target.remove();
+                            Swal.fire({
+                                icon: 'success',
+                                text: 'عملیات حذف با موفقیت انجام شد.',
+                                confirmButtonText:'تایید',
+                                customClass: {
+                                    confirmButton: 'btn btn-success',
+                                },
+                                buttonsStyling: false,
+                                showClass: {
+                                    popup: 'animated fadeInDown'
+                                },
+                                hideClass: {
+                                    popup: 'animated fadeOutUp'
+                                }
+                            })
+                        },
+                        error: function(response){
+                            if( response.status == 422 ) {
+                                let response_text = $.parseJSON( response.responseText );
+                                Swal.fire({
+                                    icon: 'error',
+                                    html: response_text.errors.object_id[0],
+                                    confirmButtonText:'تایید',
+                                    customClass: {
+                                        confirmButton: 'btn btn-success',
+                                    },
+                                    buttonsStyling: false,
+                                    showClass: {
+                                        popup: 'animated fadeInDown'
+                                    },
+                                    hideClass: {
+                                        popup: 'animated fadeOutUp'
+                                    }
+                                })
+                            } else if(response.status >= 500) {
+                                let text = 'در سمت سرور خطایی بوجود آمده است.';
+                                Swal.fire({
+                                    title: 'خطا در آپلود فایل',
+                                    html: text,
+                                    icon: 'error',
+                                    confirmButtonText: 'تایید',
+                                    buttonsStyling: false,
+                                    customClass: {
+                                        confirmButton: 'btn btn-success',
+                                    },
+                                    showClass: {
+                                        popup: 'animated fadeInDown'
+                                    },
+                                    hideClass: {
+                                        popup: 'animated fadeOutUp'
+                                    }
+                                })
+                            } else if(response.status == 403) {
+                                let text = 'شما دسترسی انجام عملیات حذف را ندارید.';
+                                Swal.fire({
+                                    title: 'خطا در آپلود فایل',
+                                    html: text,
+                                    icon: 'error',
+                                    confirmButtonText: 'تایید',
+                                    buttonsStyling: false,
+                                    customClass: {
+                                        confirmButton: 'btn btn-success',
+                                    },
+                                    showClass: {
+                                        popup: 'animated fadeInDown'
+                                    },
+                                    hideClass: {
+                                        popup: 'animated fadeOutUp'
+                                    }
+                                })
+                            }
+                        }
+                    });
+                }
             }
         });
 });
