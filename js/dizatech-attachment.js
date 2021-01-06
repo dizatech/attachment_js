@@ -179,6 +179,24 @@ $('.gallery_image_upload').change(function () {
                             popup: 'animated fadeOutUp'
                         }
                     })
+                } else if (response.status == 401) {
+                    let text = 'قبل از درخواست بارگذاری وارد برنامه شوید.';
+                    Swal.fire({
+                        title: 'خطا در آپلود فایل',
+                        html: text,
+                        icon: 'error',
+                        confirmButtonText: 'تایید',
+                        buttonsStyling: false,
+                        customClass: {
+                            confirmButton: 'btn btn-success',
+                        },
+                        showClass: {
+                            popup: 'animated fadeInDown'
+                        },
+                        hideClass: {
+                            popup: 'animated fadeOutUp'
+                        }
+                    })
                 }
             },
             xhr: function () {
@@ -462,6 +480,24 @@ $('.attachment_upload').change(function () {
                     })
                 } else if (response.status == 403) {
                     let text = 'شما دسترسی انجام عملیات بارگذاری را ندارید.';
+                    Swal.fire({
+                        title: 'خطا در آپلود فایل',
+                        html: text,
+                        icon: 'error',
+                        confirmButtonText: 'تایید',
+                        buttonsStyling: false,
+                        customClass: {
+                            confirmButton: 'btn btn-success',
+                        },
+                        showClass: {
+                            popup: 'animated fadeInDown'
+                        },
+                        hideClass: {
+                            popup: 'animated fadeOutUp'
+                        }
+                    })
+                } else if (response.status == 401) {
+                    let text = 'قبل از درخواست بارگذاری وارد برنامه شوید.';
                     Swal.fire({
                         title: 'خطا در آپلود فایل',
                         html: text,
