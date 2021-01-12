@@ -106,21 +106,7 @@ $('.gallery_image_upload').change(function () {
                     $('#' + file_id).find('.uploaded_file_thumbnail img').attr('src', response.thumbnail);
                     $('#' + file_id ).append(caption_markup);
                     $('#' + file_id).find('.progress').remove();
-                    Swal.fire({
-                        icon: 'success',
-                        text: 'عملیات بارگذاری با موفقیت انجام شد.',
-                        confirmButtonText: 'تایید',
-                        customClass: {
-                            confirmButton: 'btn btn-success',
-                        },
-                        buttonsStyling: false,
-                        showClass: {
-                            popup: 'animated fadeInDown'
-                        },
-                        hideClass: {
-                            popup: 'animated fadeOutUp'
-                        }
-                    });
+                    alertify.success('بارگذاری با موفقیت انجام شد.');
                 }
             },
             error: function (response) {
@@ -423,21 +409,7 @@ $('.attachment_upload').change(function () {
                     $('#' + file_id).find('a').attr('href', response.file_url);
                     $('#' + file_id).find('.uploaded_file_path').val(response.file_key);
                     $('#' + file_id).find('.progress').remove();
-                    Swal.fire({
-                        icon: 'success',
-                        text: 'عملیات بارگذاری با موفقیت انجام شد.',
-                        confirmButtonText: 'تایید',
-                        customClass: {
-                            confirmButton: 'btn btn-success',
-                        },
-                        buttonsStyling: false,
-                        showClass: {
-                            popup: 'animated fadeInDown'
-                        },
-                        hideClass: {
-                            popup: 'animated fadeOutUp'
-                        }
-                    });
+                    alertify.success('بارگذاری با موفقیت انجام شد.');
                 }
             },
             error: function (response) {

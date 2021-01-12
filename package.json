@@ -1,6 +1,6 @@
 {
   "name": "dizatech-attachment",
-  "version": "1.0.2",
+  "version": "1.0.4",
   "description": "Dizatech Attachment is a javascript and css package to help dizatech/attachment package that is laravel package",
   "keywords": [
     "dizatech-attachment",
