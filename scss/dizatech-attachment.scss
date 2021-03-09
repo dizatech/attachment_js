@@ -78,9 +78,9 @@ a {
 // Start Gallery
 $theme_gray: #B3B3B7;
 $theme_red: #DF2935;
-.gallery_files, .attachments{
-    .gallery_file_upload,
-    .attachment_file_upload{
+.gallery_files .gallery_file_upload,
+.uploaded_files .attachment_file_upload,
+.video_files .video_file_upload{
         border: thin solid $theme_gray;
         padding: 1em;
         border-radius: 3px;
@@ -123,7 +123,7 @@ $theme_red: #DF2935;
                 margin-right: 1em;
             }
         }
-    }
+
 }
 // End Gallery
 
