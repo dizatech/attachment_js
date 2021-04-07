@@ -26,6 +26,19 @@ $(".gallery_files").sortable({
         alertify.success('مرتب‌سازی مجددا انجام شد.');
     }
 });
+$(".uploaded_files").sortable({
+    cursor: 'move',
+    update: function (event, ui) {
+        alertify.success('مرتب‌سازی مجددا انجام شد.');
+    }
+});
+$(".video_files").sortable({
+    cursor: 'move',
+    update: function (event, ui) {
+        alertify.success('مرتب‌سازی مجددا انجام شد.');
+    }
+});
+
 // Images
 $('.gallery_image_upload').change(function () {
 
@@ -387,7 +400,7 @@ $('.attachment_upload').change(function () {
             '</div>' +
             '</div>';
 
-        target.find('.uploaded_files').append(markup);
+        target.find('.uploaded_files').append(markup).sortable();
 
         // prepare data
         let formData = new FormData();
@@ -680,6 +693,15 @@ $('.video_upload').change(function () {
         let file_id = uniqid();
         // input name
         let input_name = $(this).attr('data-name') + "[]";
+        // caption name
+        let caption_input_name = $(this).attr('data-name') + '_caption' + "[]";
+
+        // caption div
+        let caption_markup = '<div class="file_caption rtl my-1"><div class="row"><div class="col">' +
+            '<label>عنوان</label>' +
+            '<input type="text" class="form-control" name="' + caption_input_name + '">' +
+            '</div></div></div>';
+
         // file div
         let markup = '<div class="video_file_upload mb-2" id="' + file_id + '">' +
             '<span class="delete_file"><i class="fa fa-times"></i></span>' +
@@ -692,7 +714,7 @@ $('.video_upload').change(function () {
             '</div>' +
             '</div>';
 
-        target.find('.video_files').append(markup);
+        target.find('.video_files').append(markup).sortable();
 
         // prepare data
         let formData = new FormData();
@@ -713,6 +735,7 @@ $('.video_upload').change(function () {
                     $('#' + file_id).find('.file_name').text(response.file_name);
                     $('#' + file_id).find('a').attr('href', response.file_url);
                     $('#' + file_id).find('.uploaded_file_path').val(response.file_key);
+                    $('#' + file_id ).append(caption_markup);
                     $('#' + file_id).find('.progress').remove();
                     alertify.success('بارگذاری با موفقیت انجام شد.');
                 }
