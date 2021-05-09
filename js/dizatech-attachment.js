@@ -78,7 +78,7 @@ $('.gallery_image_upload').change(function () {
         // caption div
         let caption_markup = '<div class="file_caption rtl my-1"><div class="row"><div class="col">' +
             '<label>عنوان</label>' +
-            '<input type="text" class="form-control" name="' + caption_input_name + '">' +
+            '<input type="text" class="form-control" name="' + caption_input_name + '" placeholder="اختیاری">' +
             '</div></div></div>';
 
         // file div
@@ -100,6 +100,9 @@ $('.gallery_image_upload').change(function () {
         let formData = new FormData();
         formData.append('file', $(this).prop('files')[i]);
         formData.append('file_type', 'image');
+        if($(this).closest('.gallery').find('.custom_validation').length) {
+            formData.append('validation', $(this).closest('.gallery').find('.custom_validation').val());
+        }
         // let fail_message = '<span class="ltr">آپلود فایل ' + $(this).prop('files')[i].name + ' با خطا مواجه شد.</span>';
 
         // send request
@@ -355,6 +358,7 @@ $('.gallery').on('click', '.delete_file', function () {
             }
         });
 });
+
 // Attachments
 $('.attachment_upload').change(function () {
 
@@ -406,6 +410,9 @@ $('.attachment_upload').change(function () {
         let formData = new FormData();
         formData.append('file', $(this).prop('files')[i]);
         formData.append('file_type', 'attachment');
+        if($(this).closest('.attachments').find('.custom_validation').length) {
+            formData.append('validation', $(this).closest('.attachments').find('.custom_validation').val());
+        }
         // let fail_message = '<span class="ltr">آپلود فایل ' + $(this).prop('files')[i].name + ' با خطا مواجه شد.</span>';
         // send request
         $.ajax({
@@ -660,6 +667,7 @@ $('.attachments').on('click', '.delete_file', function () {
             }
         });
 });
+
 // Videos
 $('.video_upload').change(function () {
 
@@ -699,7 +707,7 @@ $('.video_upload').change(function () {
         // caption div
         let caption_markup = '<div class="file_caption rtl my-1"><div class="row"><div class="col">' +
             '<label>عنوان</label>' +
-            '<input type="text" class="form-control" name="' + caption_input_name + '">' +
+            '<input type="text" class="form-control" name="' + caption_input_name + '" placeholder="اختیاری">' +
             '</div></div></div>';
 
         // file div
@@ -720,6 +728,9 @@ $('.video_upload').change(function () {
         let formData = new FormData();
         formData.append('file', $(this).prop('files')[i]);
         formData.append('file_type', 'video');
+        if($(this).closest('.videos').find('.custom_validation').length) {
+            formData.append('validation', $(this).closest('.videos').find('.custom_validation').val());
+        }
         // let fail_message = '<span class="ltr">آپلود فایل ' + $(this).prop('files')[i].name + ' با خطا مواجه شد.</span>';
         // send request
         $.ajax({
