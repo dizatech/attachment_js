@@ -5,6 +5,10 @@ $.ajaxSetup({
     }
 });
 
+$(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+});
+
 // Plugins
 window.Swal = require('sweetalert2');
 
