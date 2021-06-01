@@ -107,6 +107,9 @@ $('.gallery_image_upload').change(function () {
         if($(this).closest('.gallery').find('.custom_validation').length) {
             formData.append('validation', $(this).closest('.gallery').find('.custom_validation').val());
         }
+        if($(this).closest('.gallery').find('.custom_disk').length) {
+            formData.append('disk', $(this).closest('.gallery').find('.custom_disk').val());
+        }
         // let fail_message = '<span class="ltr">آپلود فایل ' + $(this).prop('files')[i].name + ' با خطا مواجه شد.</span>';
 
         // send request
@@ -417,6 +420,9 @@ $('.attachment_upload').change(function () {
         if($(this).closest('.attachments').find('.custom_validation').length) {
             formData.append('validation', $(this).closest('.attachments').find('.custom_validation').val());
         }
+        if($(this).closest('.attachments').find('.custom_disk').length) {
+            formData.append('disk', $(this).closest('.attachments').find('.custom_disk').val());
+        }
         // let fail_message = '<span class="ltr">آپلود فایل ' + $(this).prop('files')[i].name + ' با خطا مواجه شد.</span>';
         // send request
         $.ajax({
@@ -629,7 +635,8 @@ $('.attachments').on('click', '.delete_file', function () {
                                     }
                                 })
                             } else if(response.status >= 500) {
-                                let text = 'در سمت سرور خطایی بوجود آمده است.';
+                                let error = $.parseJSON(response.responseText);
+                                let text = (error.tag == 'invalid') ? error.message : 'در سمت سرور خطایی بوجود آمده است.';
                                 Swal.fire({
                                     title: 'خطا در آپلود فایل',
                                     html: text,
@@ -734,6 +741,9 @@ $('.video_upload').change(function () {
         formData.append('file_type', 'video');
         if($(this).closest('.videos').find('.custom_validation').length) {
             formData.append('validation', $(this).closest('.videos').find('.custom_validation').val());
+        }
+        if($(this).closest('.videos').find('.custom_disk').length) {
+            formData.append('disk', $(this).closest('.videos').find('.custom_disk').val());
         }
         // let fail_message = '<span class="ltr">آپلود فایل ' + $(this).prop('files')[i].name + ' با خطا مواجه شد.</span>';
         // send request
