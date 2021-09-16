@@ -133,6 +133,7 @@ $('.gallery_image_upload').change(function () {
                 }
             },
             error: function (response) {
+                $('.gallery_file_upload').filter('#'+file_id).remove();
                 if (response.status == 422) {
                     let response_text = $.parseJSON(response.responseText);
                     let text = response_text.errors.file[0];
