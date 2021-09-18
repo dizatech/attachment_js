@@ -1,9 +1,9 @@
 {
-  "name": "dizatech-attachment",
-  "version": "1.4.4",
+ "name": "dizatech-attachment-js",
+  "version": "1.4.5",
   "description": "Dizatech Attachment is a javascript and css package to help dizatech/attachment package that is laravel package",
   "keywords": [
-    "dizatech-attachment",
+    "dizatech-attachment-js",
     "attachment",
     "dizatech",
     "laravel-upload",
@@ -20,8 +20,8 @@
     "uniqid": "~5.2.0"
   },
   "author": {
-    "name": "Vahid Ashourzadeh",
-    "email": "v.ashourzadeh@gmail.com"
+    "name": "Omid Reza Vasheghani Farahani",
+    "email": "omidrezav@gmail.com"
   },
   "repository": {
     "type": "git",
