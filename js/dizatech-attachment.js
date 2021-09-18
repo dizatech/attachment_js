@@ -444,6 +444,7 @@ $('.attachment_upload').change(function () {
                 }
             },
             error: function (response) {
+                $('.attachment_file_upload').filter('#'+file_id).remove();
                 if (response.status == 422) {
                     let response_text = $.parseJSON(response.responseText);
                     let text = response_text.errors.file[0];
@@ -767,6 +768,7 @@ $('.video_upload').change(function () {
                 }
             },
             error: function (response) {
+                $('.video_file_upload').filter('#'+file_id).remove();
                 if (response.status == 422) {
                     let response_text = $.parseJSON(response.responseText);
                     let text = response_text.errors.file[0];
